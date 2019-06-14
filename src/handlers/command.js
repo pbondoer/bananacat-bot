@@ -12,7 +12,7 @@ export const handleCommand = async message => {
   const name = args.shift().toLowerCase();
   const cmd = commands[name];
 
-  if (!cmd.handler) return;
+  if (!cmd || !cmd.handler) return;
 
   const user = message.author;
 
