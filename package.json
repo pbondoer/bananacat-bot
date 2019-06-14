@@ -1,0 +1,25 @@
+{
+  "name": "bananacat-bot",
+  "version": "1.0.0",
+  "description": "banana cat bot",
+  "main": "index.js",
+  "author": "lemon",
+  "license": "WTFPL",
+  "private": true,
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "lint": "eslint 'src/**/*.js'",
+    "prettier": "prettier --write 'src/**/*.js'"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.4.5",
+    "discord.js": "^11.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "eslint": "^5.16.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2"
+  }
+}
