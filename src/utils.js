@@ -17,6 +17,19 @@ export const getEmoji = name => {
   return getEmojis().find(emoji => emoji.name === name) || `:${name}:`;
 };
 
+export const createGlobalInvite = () => {
+  client.channels
+    .get("548222753640153118")
+    .createInvite(
+      {
+        temporary: false,
+        maxAge: 0,
+        maxUses: 0,
+        unique: true
+      },
+      "banana.cat"
+    );
+};
 
 // Notify functions -----------------------------------------------------------
 

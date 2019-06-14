@@ -12,6 +12,8 @@ client.on("ready", () => {
       `${client.channels.size} channels, ${client.guilds.size} guilds`
   );
 
+  console.log(client.channels);
+
   // set rich presence
   client.user.setActivity(`angry cat no banana`);
 });
