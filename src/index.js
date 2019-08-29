@@ -13,7 +13,11 @@ client.on("ready", () => {
   );
 
   // set rich presence
-  client.user.setActivity(`angry cat no banana`);
+  const setRichPresence = () => {
+    client.user.setActivity(`angry cat no banana`);
+  };
+
+  setInterval(setRichPresence, 10 * 60 * 1000);
 });
 
 client.on("guildCreate", guild => {
