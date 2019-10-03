@@ -3,7 +3,6 @@ import client from ".";
 
 // Checks if the message contains a banana
 // angry cat no banana!
-
 export const hasBanana = message => message.content.indexOf("🍌") >= 0;
 
 // Gets home guild object
@@ -39,4 +38,8 @@ export const error = (channel, message) => {
 
 export const success = (channel, message) => {
   channel.send(`✅ ${message}`);
+};
+
+export const info = (channel, message) => {
+  channel.send(`:information_source: ${message}`);
 };

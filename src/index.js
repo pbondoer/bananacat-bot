@@ -2,8 +2,10 @@ import { Client } from "discord.js";
 
 import config from "./config";
 import { handleCommand, handleMessage } from "./handlers";
+import { loadDb } from './localdb';
 
 // Declare client
+console.log(`Starting...`);
 export const client = new Client();
 
 client.on("ready", () => {
@@ -14,10 +16,14 @@ client.on("ready", () => {
 
   // set rich presence
   const setRichPresence = () => {
-    client.user.setActivity(`angry cat no banana`);
+    client.user.setActivity(`angry cat no banana`, { type: "PLAYING" });
   };
 
   setInterval(setRichPresence, 10 * 60 * 1000);
+  setRichPresence();
+
+  // ensure online status
+  client.user.setStatus("online");
 });
 
 client.on("guildCreate", guild => {

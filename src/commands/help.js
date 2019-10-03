@@ -15,7 +15,7 @@ export default {
             const cmd = commands[name];
 
             // hide certain commands from help
-            if (cmd.hidden || cmd.admin) return;
+            if (cmd.hidden || cmd.admin) return '';
 
             let line = `* **${name}**`;
 
@@ -25,8 +25,9 @@ export default {
 
             return line;
           })
+          .filter(Boolean)
           .join("\n")}
-
+          
         hope you have fun! ${getEmoji("bananacat")}
       `;
 
