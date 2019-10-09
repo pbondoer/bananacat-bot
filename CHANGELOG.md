@@ -1,3 +1,7 @@
+# v0.1.1
+- 👨‍🚒 **HOTFIX** - Double newlines in `top`
+- 🛠️ **DEPS** - Upgraded all to latest
+
 # v0.1.0
 - 🏆 **NEW** - Implement level system based on message count
   - New commands: `!level`, `!top`
