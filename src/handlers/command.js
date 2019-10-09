@@ -1,8 +1,8 @@
-import config from "../config";
-import { client } from "..";
-import { error } from "../utils";
+import config from '../config';
+import { client } from '..';
+import { error } from '../utils';
 
-import * as commands from "../commands";
+import * as commands from '../commands';
 
 export const handleCommand = async message => {
   const args = message.content
@@ -19,9 +19,7 @@ export const handleCommand = async message => {
   // hanlde admin commands
   // TODO: granular permissions if needed
   if (cmd.admin && !config.admins.find(id => id === user.id)) {
-    console.log(
-      `[admin] Violation: ${user} attempted to use: ${name}`
-    );
+    console.log(`[admin] Violation: ${user} attempted to use: ${name}`);
     return;
   }
 

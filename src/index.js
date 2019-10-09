@@ -1,46 +1,49 @@
-import { Client } from "discord.js";
+import { Client } from 'discord.js';
 
-import config from "./config";
-import { handleCommand, handleMessage } from "./handlers";
-import { loadDb } from './localdb';
+import config from './config';
+import { handleCommand, handleMessage } from './handlers';
+
+import { name, version } from '../package.json';
 
 // Declare client
 console.log(`Starting...`);
 export const client = new Client();
 
-client.on("ready", () => {
+client.on('ready', () => {
   console.log(
-    `Bot started: ${client.users.size} users, ` +
-      `${client.channels.size} channels, ${client.guilds.size} guilds`
+    `🍌 ${name} v${version} started:\n` +
+      ` - ${client.users.size} users\n` +
+      ` - ${client.channels.size} channels\n` +
+      ` - ${client.guilds.size} guilds`
   );
 
   // set rich presence
   const setRichPresence = () => {
-    client.user.setActivity(`angry cat no banana`, { type: "PLAYING" });
+    client.user.setActivity(`angry cat no banana`, { type: 'PLAYING' });
+    setTimeout(setRichPresence, 15 * 60 * 1000);
   };
 
-  setInterval(setRichPresence, 10 * 60 * 1000);
   setRichPresence();
 
   // ensure online status
-  client.user.setStatus("online");
+  client.user.setStatus('online');
 });
 
-client.on("guildCreate", guild => {
+client.on('guildCreate', guild => {
   console.log(
     `[guild] Joined: ${guild.name} (id: ${guild.id}) ` +
       `with ${guild.memberCount} members`
   );
 });
 
-client.on("guildDelete", guild => {
+client.on('guildDelete', guild => {
   console.log(
     `[guild] Left: ${guild.name} (id: ${guild.id}) ` +
       `with ${guild.memberCount} members`
   );
 });
 
-client.on("message", async message => {
+client.on('message', async message => {
   // ignore other bots and self
   if (message.author.bot) return;
 

@@ -1,11 +1,9 @@
-import { RichEmbed } from "discord.js";
-
-import * as commands from ".";
-import { getEmoji } from "../utils";
+import * as commands from '.';
+import { getEmoji, getRichEmbed } from '../utils';
 
 export default {
-  name: "help",
-  description: "shows this message",
+  name: 'help',
+  description: 'shows this message',
   handler: message => {
     const msg = `
         hi my name is anfisa, here is what i can do:
@@ -26,16 +24,13 @@ export default {
             return line;
           })
           .filter(Boolean)
-          .join("\n")}
+          .join('\n')}
           
-        hope you have fun! ${getEmoji("bananacat")}
+        hope you have fun! ${getEmoji('bananacat')}
       `;
 
-    const help = new RichEmbed()
-      .setTitle("angry help no banana")
-      .setColor(0xf1c40f)
-      .setDescription(msg);
+    const help = getRichEmbed('angry help no banana', msg);
 
     message.channel.send(help);
-  }
+  },
 };

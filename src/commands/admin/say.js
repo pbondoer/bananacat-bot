@@ -2,9 +2,9 @@ import { client } from '../..';
 import { error, success } from '../../utils';
 
 export default {
-  name: "say",
+  name: 'say',
   admin: true,
-  description: "says something as bot",
+  description: 'says something as bot',
   args: {
     channel: 'which channel to say it in',
     message: 'what to say',
@@ -16,17 +16,17 @@ export default {
     const channel = client.channels.get(id);
 
     if (!channel) {
-      error(message.channel, "Invalid channel ID");
+      error(message.channel, 'Invalid channel ID');
       return;
     }
 
     if (!msg) {
-      error(message.channel, "Please provide a message");
+      error(message.channel, 'Please provide a message');
       return;
     }
 
     channel.send(msg);
 
     success(message.channel, 'Sent!');
-  }
+  },
 };

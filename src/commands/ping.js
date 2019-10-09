@@ -1,16 +1,16 @@
 export default {
-  name: "ping",
-  description: "sends back pong",
+  name: 'ping',
+  description: 'sends back pong',
   handler: message => {
-    message.channel.send("Pong! 🏓");
-  }
+    message.channel.send('Pong! 🏓');
+  },
 };
 
 export const pong = {
-  name: "pong",
+  name: 'pong',
   hidden: true,
-  description: "sends back ping",
+  description: 'sends back ping',
   handler: message => {
-    message.channel.send("Ping! 🏓");
-  }
+    message.channel.send('Ping! 🏓');
+  },
 };
