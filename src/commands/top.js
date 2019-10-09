@@ -14,10 +14,10 @@ export default {
       ([id, data], i) =>
         `**${i + 1}. ${getMember(id).displayName}** - level ${getLevelFromData(
           data
-        )} with ${formatPoints(getPointsFromData(data))} points\n${
+        )} with ${formatPoints(getPointsFromData(data))} points${
           i === 2 ? '\n' : ''
         }`
-    );
+    ).join('\n');
 
     const embed = getRichEmbed('🏆 **Leaderboards**', msg);
 
