@@ -1,3 +1,6 @@
+# v0.1.2
+- 👨‍🚒 **HOTFIX** - Sort not working in `top`
+
 # v0.1.1
 - 👨‍🚒 **HOTFIX** - Double newlines in `top`
 - 🛠️ **DEPS** - Upgraded all to latest

@@ -31,9 +31,7 @@ export const formatPoints = points =>
 
 export const getTop = () => {
   return Object.entries(db)
-    .sort((a, b) => {
-      a.points - b.points;
-    })
+    .sort((a, b) => b[1].points - a[1].points)
     .slice(0, 10);
 };
 
