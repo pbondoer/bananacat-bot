@@ -11,21 +11,17 @@ export default {
     message: 'what to say',
   },
   handler: (message, args) => {
-    if (!args) return;
-
     const [id, ...rest] = args;
 
     const msg = rest.join(' ').trim();
     const channel = client.channels.get(id);
 
     if (!channel) {
-      error(message.channel, 'Invalid channel ID');
-      return;
+      return error(message.channel, 'Invalid channel ID');
     }
 
     if (!msg) {
-      error(message.channel, 'Please provide a message');
-      return;
+      return error(message.channel, 'Please provide a message');
     }
 
     if (channel instanceof TextChannel) {

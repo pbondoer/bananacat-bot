@@ -11,6 +11,6 @@ declare global {
     admin?: boolean;
     hidden?: boolean;
     args?: FlatMap<string>;
-    handler: (m: Message, args?: string[]) => void;
+    handler: (m: Message, args: string[]) => any;
   };
 }

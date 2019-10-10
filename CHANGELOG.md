@@ -1,5 +1,7 @@
 # v0.2.0
 - 🚀 **NEW** - Migrate to TypeScript
+- 🗄️ **NEW** - Added `!db` commands
+  - `get` / `set` / `stats`
 - 🛠️ **FIXED** - Hooks no longer trigger for DMs
 
 # v0.1.2

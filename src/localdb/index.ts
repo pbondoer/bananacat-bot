@@ -14,43 +14,50 @@ const lastSync: FlatMap<Date> = {};
 type SuccessFn = (name: string) => void;
 type ErrorFn = (name: string, err: NodeJS.ErrnoException) => void;
 
+export const dbPath = (name: string) =>
+  path.resolve(config.db.path, `${name}.json`);
+
 // Saves a specific DB to disk
 export const saveDb = (
   name: string,
   cbSuccess?: SuccessFn,
   cbError?: ErrorFn
 ) => {
-  const p = path.resolve(config.db.path, `${name}.json`);
-
   // important to set it here to avoid multiple syncs
   lastSync[name] = new Date();
 
-  fs.writeFile(p, JSON.stringify(map[name]), 'utf8', err => {
+  // ensure the folder is present
+  if (!fs.existsSync(config.db.path)) {
+    fs.mkdirSync(config.db.path);
+  }
+
+  fs.writeFile(dbPath(name), JSON.stringify(map[name]), 'utf8', err => {
     if (err) {
       console.error(`[localdb] Error saving database ${name}`);
       console.error(err);
 
-      typeof cbError === 'function' && cbError(name, err);
+      cbError && cbError(name, err);
+      return;
     }
 
-    typeof cbSuccess === 'function' && cbSuccess(name);
+    cbSuccess && cbSuccess(name);
   });
 };
 
 // Loads a DB from disk
 export const loadDb = (name: string) => {
   let db = {};
-  const p = path.resolve(config.db.path, `${name}.json`);
 
   console.log(`[localdb] Loading ${name}`);
 
   try {
-    const raw = fs.readFileSync(p, 'utf8');
+    const raw = fs.readFileSync(dbPath(name), 'utf8');
     db = JSON.parse(raw);
   } catch (e) {
     if (e.code !== 'ENOENT') {
       console.error(`[localdb] Error reading database ${name}`);
       console.error(e);
+      return;
     }
 
     // File not found should be handled
@@ -77,6 +84,9 @@ export const loadDb = (name: string) => {
   lastSync[name] = new Date();
 };
 
+// Check if a DB exists
+export const hasDb = (name: string) => fs.existsSync(dbPath(name));
+
 // Saves all DBs to disk
 export const syncToDisk = (cbSuccess: SuccessFn, cbError: ErrorFn) => {
   const keys = Object.keys(map);
@@ -86,6 +96,15 @@ export const syncToDisk = (cbSuccess: SuccessFn, cbError: ErrorFn) => {
   });
 
   return keys;
+};
+
+// Stats
+export const dbStats = (name: string) => {
+  return {
+    count: Object.keys(map[name]).length,
+    size: fs.statSync(dbPath(name)).size,
+    lastWrite: lastSync[name],
+  };
 };
 
 // Gets a DB
