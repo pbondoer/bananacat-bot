@@ -1,8 +1,10 @@
-# v0.2.0
-- 🚀 **NEW** - Migrate to TypeScript
+# v0.2.1
 - 🗄️ **NEW** - Added `!db` commands
   - `get` / `set` / `stats`
 - 🛠️ **FIXED** - Hooks no longer trigger for DMs
+
+# v0.2.0
+- 🚀 **NEW** - Migrate to TypeScript
 
 # v0.1.2
 - 👨‍🚒 **HOTFIX** - Sort not working in `top`
