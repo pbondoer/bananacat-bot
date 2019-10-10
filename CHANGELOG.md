@@ -1,5 +1,6 @@
 # v0.2.0
 - 🚀 **NEW** - Migrate to TypeScript
+- 🛠️ **FIXED** - Hooks no longer trigger for DMs
 
 # v0.1.2
 - 👨‍🚒 **HOTFIX** - Sort not working in `top`
