@@ -1,3 +1,6 @@
+# v0.2.0
+- 🚀 **NEW** - Migrate to TypeScript
+
 # v0.1.2
 - 👨‍🚒 **HOTFIX** - Sort not working in `top`
 
