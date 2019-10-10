@@ -4,13 +4,13 @@ export default {
   handler: message => {
     message.channel.send('Pong! 🏓');
   },
-};
+} as Command;
 
 export const pong = {
   name: 'pong',
-  hidden: true,
   description: 'sends back ping',
+  hidden: true,
   handler: message => {
     message.channel.send('Ping! 🏓');
   },
-};
+} as Command;

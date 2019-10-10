@@ -5,12 +5,40 @@ import path from 'path';
 // TODO: Add gzip support if these get too big
 
 // Map of all loaded databases
-const map = {};
-const proxies = {};
-const lastSync = {};
+type DB = FlatMap<any>;
+
+const map: FlatMap<DB> = {};
+const proxies: FlatMap<DB> = {};
+const lastSync: FlatMap<Date> = {};
+
+type SuccessFn = (name: string) => void;
+type ErrorFn = (name: string, err: NodeJS.ErrnoException) => void;
+
+// Saves a specific DB to disk
+export const saveDb = (
+  name: string,
+  cbSuccess?: SuccessFn,
+  cbError?: ErrorFn
+) => {
+  const p = path.resolve(config.db.path, `${name}.json`);
+
+  // important to set it here to avoid multiple syncs
+  lastSync[name] = new Date();
+
+  fs.writeFile(p, JSON.stringify(map[name]), 'utf8', err => {
+    if (err) {
+      console.error(`[localdb] Error saving database ${name}`);
+      console.error(err);
+
+      typeof cbError === 'function' && cbError(name, err);
+    }
+
+    typeof cbSuccess === 'function' && cbSuccess(name);
+  });
+};
 
 // Loads a DB from disk
-export const loadDb = name => {
+export const loadDb = (name: string) => {
   let db = {};
   const p = path.resolve(config.db.path, `${name}.json`);
 
@@ -32,10 +60,12 @@ export const loadDb = name => {
 
   map[name] = db;
   proxies[name] = new Proxy(map[name], {
-    set: (obj, prop, value) => {
+    set: (_, prop, value) => {
+      if (typeof prop !== 'string') return false;
+
       map[name][prop] = value;
 
-      const diff = new Date() - lastSync[name];
+      const diff = +new Date() - +lastSync[name];
       if (diff > config.db.syncInterval * 1000) {
         saveDb(name);
       }
@@ -43,30 +73,12 @@ export const loadDb = name => {
       return true;
     },
   });
+
   lastSync[name] = new Date();
-};
-
-// Saves a specific DB to disk
-export const saveDb = (name, cbSuccess, cbError) => {
-  const p = path.resolve(config.db.path, `${name}.json`);
-
-  // important to set it here to avoid multiple syncs
-  lastSync[name] = new Date();
-
-  fs.writeFile(p, JSON.stringify(map[name]), 'utf8', err => {
-    if (err) {
-      console.error(`[localdb] Error saving database ${name}`);
-      console.error(err);
-
-      typeof cbError === 'function' && cbError(name, err);
-    }
-
-    typeof cbSuccess === 'function' && cbSuccess(name);
-  });
 };
 
 // Saves all DBs to disk
-export const syncToDisk = (cbSuccess, cbError) => {
+export const syncToDisk = (cbSuccess: SuccessFn, cbError: ErrorFn) => {
   const keys = Object.keys(map);
 
   keys.forEach(key => {
@@ -77,7 +89,7 @@ export const syncToDisk = (cbSuccess, cbError) => {
 };
 
 // Gets a DB
-export const getDb = name => {
+export const getDb = (name: string) => {
   if (!map[name] || !proxies[name]) {
     loadDb(name);
   }

@@ -1,11 +1,13 @@
+import { Message } from 'discord.js';
+
 import { getEmoji, hasBanana } from '../utils';
 import { getDb } from '../localdb';
 
 const db = getDb('bananaCounter');
 
-const get = id => db[id] || 0;
+const get = (id: string) => db[id] || 0;
 
-export default async message => {
+export default async (message: Message) => {
   if (hasBanana(message)) {
     message.react(getEmoji('bananacat'));
 

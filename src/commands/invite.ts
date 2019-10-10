@@ -4,4 +4,4 @@ export default {
   handler: message => {
     message.channel.send('🔗 **<https://discord.gg/XWSpM8u>**');
   },
-};
+} as Command;

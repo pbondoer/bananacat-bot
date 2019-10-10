@@ -10,17 +10,22 @@ export default {
   name: 'top',
   description: 'leaderboards, will u be #1?',
   handler: message => {
-    const msg = getTop().map(
-      ([id, data], i) =>
-        `**${i + 1}. ${getMember(id).displayName}** - level ${getLevelFromData(
+    const msg = getTop()
+      .map(([id, data], i) => {
+        const member = getMember(id);
+        if (!member) return undefined;
+
+        return `**${i + 1}. ${member.displayName}** - level ${getLevelFromData(
           data
         )} with ${formatPoints(getPointsFromData(data))} points${
           i === 2 ? '\n' : ''
-        }`
-    ).join('\n');
+        }`;
+      })
+      .filter(Boolean)
+      .join('\n');
 
     const embed = getRichEmbed('🏆 **Leaderboards**', msg);
 
     message.channel.send(embed);
   },
-};
+} as Command;

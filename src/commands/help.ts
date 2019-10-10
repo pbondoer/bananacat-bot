@@ -10,10 +10,10 @@ export default {
 
         ${Object.keys(commands)
           .map(name => {
-            const cmd = commands[name];
+            const cmd = commands[name as keyof typeof commands];
 
             // hide certain commands from help
-            if (cmd.hidden || cmd.admin) return '';
+            if (!cmd || cmd.hidden || cmd.admin) return '';
 
             let line = `* **${name}**`;
 
@@ -33,4 +33,4 @@ export default {
 
     message.channel.send(help);
   },
-};
+} as Command;

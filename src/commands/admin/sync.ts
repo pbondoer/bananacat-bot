@@ -3,9 +3,8 @@ import { syncToDisk } from '../../localdb';
 
 export default {
   name: 'sync',
-  admin: true,
   description: 'sync all DB to disk',
-  args: {}, // no arguments
+  admin: true,
   handler: message => {
     const list = syncToDisk(
       name => {
@@ -19,4 +18,4 @@ export default {
 
     info(message.channel, `**${list.length} total**`);
   },
-};
+} as Command;

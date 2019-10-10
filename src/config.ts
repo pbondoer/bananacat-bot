@@ -5,8 +5,8 @@ import raw from '../config';
 // This module allows us to edit properties after loading config if needed
 
 // utility functions
-const array = item => (Array.isArray(item) ? item : []);
-const path = item => _path.resolve(item);
+const array = (item: Array<any>) => (Array.isArray(item) ? item : []);
+const path = (item: string) => _path.resolve(item);
 
 const config = Object.freeze({
   ...raw,

@@ -1,16 +1,18 @@
+import { Message } from 'discord.js';
+
 import config from '../config';
 import { client } from '..';
 import { error } from '../utils';
 
 import * as commands from '../commands';
 
-export const handleCommand = async message => {
+export const handleCommand = async (message: Message) => {
   const args = message.content
     .slice(config.prefix.length)
     .trim()
     .split(/ +/g);
-  const name = args.shift().toLowerCase();
-  const cmd = commands[name];
+  const name = (args.shift() || '').toLowerCase();
+  const cmd = commands[name as keyof typeof commands];
 
   if (!cmd || !cmd.handler) return;
 

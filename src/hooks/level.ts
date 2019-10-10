@@ -1,32 +1,41 @@
+import { User, Message } from 'discord.js';
+
 import { getDb } from '../localdb';
 import config from '../config';
 import { getEmoji } from '../utils';
 
-const db = getDb('level');
+type Item = {
+  messageCount: number;
+  points: number;
+  lastMessage: Date;
+};
 
-const get = id =>
+const db: FlatMap<Item> = getDb('level');
+
+const get = (id: string): Item =>
   db[id] || {
     messageCount: 0,
     points: config.levels.logScale,
     lastMessage: null,
   };
 
-const l = (x, y) => Math.log(y) / Math.log(x);
+const l = (x: number, y: number) => Math.log(y) / Math.log(x);
 
-const getRawLevel = data => l(config.levels.logScale, data.points);
+const getRawLevel = (data: Item) => l(config.levels.logScale, data.points);
 
-export const getLevelFromData = data => Math.floor(getRawLevel(data));
-export const getExperienceFromData = data =>
+export const getLevelFromData = (data: Item) => Math.floor(getRawLevel(data));
+export const getExperienceFromData = (data: Item) =>
   getRawLevel(data) - getLevelFromData(data);
-export const getPointsFromData = data =>
+export const getPointsFromData = (data: Item) =>
   Math.floor(data.points * config.levels.pointsScale);
 
-export const getLevel = author => getLevelFromData(get(author.id));
-export const getExperience = author => getExperienceFromData(get(author.id));
-export const getPoints = author => getPointsFromData(get(author.id));
+export const getLevel = (author: User) => getLevelFromData(get(author.id));
+export const getExperience = (author: User) =>
+  getExperienceFromData(get(author.id));
+export const getPoints = (author: User) => getPointsFromData(get(author.id));
 
-export const formatExp = exp => `${(exp * 100).toFixed(1)}%`;
-export const formatPoints = points =>
+export const formatExp = (exp: number) => `${(exp * 100).toFixed(1)}%`;
+export const formatPoints = (points: number) =>
   points <= 1000 ? points : `${(points / 1000).toFixed(2)}K`;
 
 export const getTop = () => {
@@ -35,11 +44,11 @@ export const getTop = () => {
     .slice(0, 10);
 };
 
-export default async message => {
+export default async (message: Message) => {
   const data = get(message.author.id);
   const curLevel = getLevelFromData(data);
 
-  const diff = new Date() - new Date(data.lastMessage);
+  const diff = +new Date() - +new Date(data.lastMessage);
   if (!data.lastMessage || diff > config.levels.interval) {
     data.messageCount += 1;
     data.points +=
