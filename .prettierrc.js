@@ -1,5 +1,5 @@
 module.exports = {
-  parser: 'typescript',
+  proseWrap: 'always',
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
