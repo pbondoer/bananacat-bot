@@ -3,8 +3,8 @@ import {
   getLevelFromData,
   getPointsFromData,
   formatPoints,
-} from '../hooks/level';
-import { getRichEmbed, getMember } from '../utils';
+} from '~/hooks/level';
+import { getRichEmbed, getMember } from '~/utils';
 
 export default {
   name: 'top',

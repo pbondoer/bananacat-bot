@@ -1,5 +1,5 @@
-import { client } from '../..';
-import { error, success } from '../../utils';
+import { client } from '~';
+import { error, success } from '~/utils';
 import { TextChannel } from 'discord.js';
 
 export default {

@@ -1,4 +1,4 @@
-import { getEmojis } from '../utils';
+import { getEmojis } from '~/utils';
 
 export default {
   name: 'emoji',

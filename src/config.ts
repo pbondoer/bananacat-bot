@@ -1,6 +1,6 @@
 import _path from 'path';
 
-import raw from '../config';
+import raw from '~/../config';
 
 // This module allows us to edit properties after loading config if needed
 

@@ -4,7 +4,7 @@ import {
   getPoints,
   formatExp,
   formatPoints,
-} from '../hooks/level';
+} from '~/hooks/level';
 
 export default {
   name: 'level',

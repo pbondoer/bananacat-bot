@@ -1,6 +1,6 @@
 import { Message, TextChannel } from 'discord.js';
 
-import * as hooks from '../hooks';
+import * as hooks from '~/hooks';
 
 export const handleMessage = async (message: Message) => {
   if (!(message.channel instanceof TextChannel)) {

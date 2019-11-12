@@ -1,5 +1,5 @@
 import * as commands from '.';
-import { getEmoji, getRichEmbed } from '../utils';
+import { getEmoji, getRichEmbed } from '~/utils';
 
 export default {
   name: 'help',

@@ -1,8 +1,8 @@
 import { User, Message } from 'discord.js';
 
-import { getDb } from '../localdb';
-import config from '../config';
-import { getEmoji } from '../utils';
+import { getDb } from '~/localdb';
+import config from '~/config';
+import { getEmoji } from '~/utils';
 
 type Item = {
   messageCount: number;

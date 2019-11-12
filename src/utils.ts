@@ -1,7 +1,7 @@
 import { RichEmbed, Message, User } from 'discord.js';
 
-import config from './config';
-import client from '.';
+import config from '~/config';
+import client from '~';
 
 // Checks if the message contains a banana
 // angry cat no banana!

@@ -1,10 +1,10 @@
 import { Message } from 'discord.js';
 
-import config from '../config';
-import { client } from '..';
-import { error } from '../utils';
+import config from '~/config';
+import { client } from '~';
+import { error } from '~/utils';
 
-import * as commands from '../commands';
+import * as commands from '~/commands';
 
 export const handleCommand = async (message: Message) => {
   const args = message.content

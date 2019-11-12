@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
 import { get, set } from 'lodash';
 
-import { error, success, formatBytes } from '../../utils';
-import { getDb, hasDb, dbStats } from '../../localdb';
+import { error, success, formatBytes } from '~/utils';
+import { getDb, hasDb, dbStats } from '~/localdb';
 
 const _get = (message: Message, name?: string, key?: string) => {
   if (!name) {

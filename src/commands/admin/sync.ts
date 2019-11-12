@@ -1,5 +1,5 @@
-import { error, success, info } from '../../utils';
-import { syncToDisk } from '../../localdb';
+import { error, success, info } from '~/utils';
+import { syncToDisk } from '~/localdb';
 
 export default {
   name: 'sync',

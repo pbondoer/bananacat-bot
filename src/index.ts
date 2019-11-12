@@ -1,9 +1,9 @@
 import { Client } from 'discord.js';
 
-import config from './config';
-import { handleCommand, handleMessage } from './handlers';
+import config from '~/config';
+import { handleCommand, handleMessage } from '~/handlers';
 
-import { name, version } from '../package.json';
+import { name, version } from '~/../package.json';
 
 // Declare client
 console.log(`Starting...`);

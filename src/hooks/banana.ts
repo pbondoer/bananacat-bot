@@ -1,7 +1,7 @@
 import { Message } from 'discord.js';
 
-import { getEmoji, hasBanana } from '../utils';
-import { getDb } from '../localdb';
+import { getEmoji, hasBanana } from '~/utils';
+import { getDb } from '~/localdb';
 
 const db = getDb('bananaCounter');
 
