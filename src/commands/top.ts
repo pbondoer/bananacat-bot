@@ -13,7 +13,7 @@ export default {
     page: 'which page of the leaderboards to display',
   },
   handler: (message, args) => {
-    const page = Math.floor(Number(args[0])) + 1;
+    const page = Math.floor(Number(args[0] || 0));
     const offset = page * 10;
 
     const top = getTop(page);
@@ -42,7 +42,10 @@ export default {
       .filter(Boolean)
       .join('\n');
 
-    const embed = getRichEmbed('🏆 **Leaderboards**', msg);
+    const embed = getRichEmbed(
+      `🏆 **Leaderboards** (page ${page + 1} / ${maxPage})`,
+      msg
+    );
 
     message.channel.send(embed);
   },
