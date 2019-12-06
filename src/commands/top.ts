@@ -4,7 +4,7 @@ import {
   getPointsFromData,
   formatPoints,
 } from '~/hooks/level';
-import { getRichEmbed, getMember } from '~/utils';
+import { getRichEmbed, getMember, info } from '~/utils';
 
 export default {
   name: 'top',
@@ -13,11 +13,20 @@ export default {
     page: 'which page of the leaderboards to display',
   },
   handler: (message, args) => {
-    const page = Math.floor(Number(args[0]));
-
+    const page = Math.floor(Number(args[0])) + 1;
     const offset = page * 10;
 
-    const msg = getTop(page)
+    const top = getTop(page);
+    const maxPage = Math.ceil(top.length / 10) || 1;
+
+    if (top.length === 0) {
+      return info(
+        message.channel,
+        `Page must be between **1** and **${maxPage}**`
+      );
+    }
+
+    const msg = top
       .map(([id, data], i) => {
         const member = getMember(id);
         if (!member) return undefined;
