@@ -1,4 +1,4 @@
-# next
+# v0.3.0
 
 - 🌠 **NEW** - Added message streaking
   - Send messages every day to improve your current streak
