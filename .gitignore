@@ -1,4 +1,10 @@
+# Application files
 node_modules
 db
-dist
+
+# Configuration files
 config.ts
+
+# Parcel files
+dist
+.cache

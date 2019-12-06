@@ -7,9 +7,10 @@
   "license": "WTFPL",
   "private": true,
   "scripts": {
-    "build": "tsc --build",
-    "start": "npm run start:prod",
-    "start:prod": "npm run build && node dist/src/index.js",
+    "build": "cross-env NODE_ENV=development parcel build src/index.ts --target node --no-minify",
+    "build:prod": "cross-env NODE_ENV=production parcel build src/index.ts --target node --experimental-scope-hoisting",
+    "start": "npm run build && node dist/index.js",
+    "start:prod": "npm run build:prod && node dist/index.js",
     "lint": "eslint src/**/*.ts",
     "prettier": "prettier --write src/**/*.ts"
   },
@@ -22,9 +23,11 @@
     "@types/node": "^12.12.7",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
+    "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   }
