@@ -9,5 +9,4 @@ export { default as top } from './top';
 
 // Admin commands
 export { default as say } from './admin/say';
-export { default as sync } from './admin/sync';
 export { default as db } from './admin/db';

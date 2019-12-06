@@ -1,8 +1,8 @@
 import { Message } from 'discord.js';
 import { get, set } from 'lodash';
 
-import { error, success, formatBytes } from '~/utils';
-import { getDb, hasDb, dbStats } from '~/localdb';
+import { error, success, info, formatBytes } from '~/utils';
+import { getDb, hasDb, dbStats, syncToDisk } from '~/localdb';
 
 const _get = (message: Message, name?: string, key?: string) => {
   if (!name) {
@@ -91,11 +91,25 @@ const _stats = (message: Message, name?: string) => {
   );
 };
 
+const _sync = (message: Message) => {
+  const list = syncToDisk(
+    name => {
+      success(message.channel, name);
+    },
+    (name, err) => {
+      error(message.channel, name);
+      message.channel.send(`${err}`);
+    }
+  );
+
+  return info(message.channel, `**${list.length} total**`);
+};
+
 export default {
   name: 'db',
   description: 'db actions',
   args: {
-    action: 'get | set | stats',
+    action: 'get | set | stats | sync',
     dbName: 'the name of the database',
     key: 'key to access',
     value: 'value to set',
@@ -113,6 +127,8 @@ export default {
       _set(message, name, key, value);
     } else if (action === 'stats') {
       _stats(message, name);
+    } else if (action === 'sync') {
+      _sync(message);
     }
   },
 } as Command;
