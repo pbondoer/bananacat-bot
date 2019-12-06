@@ -2,7 +2,7 @@ import { Message } from 'discord.js';
 import { get, set } from 'lodash';
 
 import { error, success, info, formatBytes } from '~/utils';
-import { getDb, hasDb, dbStats, syncToDisk } from '~/localdb';
+import { getDb, hasDb, listDb, dbStats, syncToDisk } from '~/localdb';
 
 const _get = (message: Message, name?: string, key?: string) => {
   if (!name) {
@@ -105,6 +105,15 @@ const _sync = (message: Message) => {
   return info(message.channel, `**${list.length} total**`);
 };
 
+const _list = (message: Message) => {
+  const list = listDb();
+
+  message.channel.send(
+    `> Databases (${list.length}):\n> ` +
+      list.map(item => `\`${item}\``).join(', ')
+  );
+};
+
 export default {
   name: 'db',
   description: 'db actions',
@@ -129,6 +138,8 @@ export default {
       _stats(message, name);
     } else if (action === 'sync') {
       _sync(message);
+    } else if (action === 'list') {
+      _list(message);
     }
   },
 } as Command;

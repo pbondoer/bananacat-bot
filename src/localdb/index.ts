@@ -98,6 +98,9 @@ export const syncToDisk = (cbSuccess: SuccessFn, cbError: ErrorFn) => {
   return keys;
 };
 
+// List of all DBs
+export const listDb = () => Object.keys(map);
+
 // Stats
 export const dbStats = (name: string) => {
   return {
