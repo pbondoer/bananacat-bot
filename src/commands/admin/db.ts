@@ -1,4 +1,4 @@
-import { Message } from 'discord.js';
+import { Message, Attachment } from 'discord.js';
 import { get, set } from 'lodash';
 
 import { error, success, info, formatBytes } from '~/utils';
@@ -108,10 +108,26 @@ const _sync = (message: Message) => {
 const _list = (message: Message) => {
   const list = listDb();
 
-  message.channel.send(
+  return message.channel.send(
     `> Databases (${list.length}):\n> ` +
       list.map(item => `\`${item}\``).join(', ')
   );
+};
+
+const _export = (message: Message, name?: string) => {
+  if (!name) {
+    return error(message.channel, 'Please provide a name');
+  }
+
+  if (!hasDb(name)) {
+    return error(message.channel, `DB \`${name}\` does not exist`);
+  }
+
+  const dbStr = JSON.stringify(getDb(name), null, 4);
+  const buf = Buffer.from(dbStr, 'utf-8');
+
+  const attachment = new Attachment(buf, `${name}.json`);
+  return message.channel.send(attachment);
 };
 
 export default {
@@ -140,6 +156,8 @@ export default {
       _sync(message);
     } else if (action === 'list') {
       _list(message);
+    } else if (action === 'export') {
+      _export(message, name);
     }
   },
 } as Command;

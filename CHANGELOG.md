@@ -3,6 +3,7 @@
 - 🏆 **IMPROVED** `!top` leaderboards now takes an optional page argument
 - 🗄️ **CHANGED** - Moved `!sync` to `!db sync`
 - 🗄️ **NEW** - Add `!db list` command
+- 🗄️ **NEW** - Add `!db export` command
 
 # v0.2.1
 
