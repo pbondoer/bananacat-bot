@@ -1,9 +1,12 @@
 # next
 
-- 🏆 **IMPROVED** `!top` leaderboards now takes an optional page argument
-- 🗄️ **CHANGED** - Moved `!sync` to `!db sync`
+- 🌠 **NEW** - Added message streaking
+  - Send messages every day to improve your current streak
+  - Earn a bonus once your streak is active
+- 🏆 **IMPROVED** - `!top` leaderboards now takes an optional page argument
 - 🗄️ **NEW** - Add `!db list` command
 - 🗄️ **NEW** - Add `!db export` command
+- 🗄️ **CHANGED** - Moved `!sync` to `!db sync`
 
 # v0.2.1
 

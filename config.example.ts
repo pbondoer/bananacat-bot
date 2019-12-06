@@ -9,6 +9,10 @@ export default {
     minPoints: 0.25,
     maxPoints: 1,
     interval: 10 * 1000,
+    streakInterval: 12 * 60 * 60 * 1000,
+    streakIntervalMax: 36 * 60 * 60 * 1000,
+    streakThreshold: 5,
+    streakMultiplier: 1.1,
   },
   db: {
     path: './db',

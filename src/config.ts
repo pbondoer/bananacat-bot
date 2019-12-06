@@ -19,6 +19,11 @@ const config = Object.freeze({
     minPoints: raw.levels.minPoints || 0.25,
     maxPoints: raw.levels.maxPoints || 1,
     interval: raw.levels.interval || 10 * 1000,
+    // Streak
+    streakInterval: raw.levels.streakInterval || 12 * 60 * 60 * 1000,
+    streakIntervalMax: raw.levels.streakIntervalMax || 36 * 60 * 60 * 1000,
+    streakThreshold: raw.levels.streakThreshold || 5,
+    streakMultiplier: raw.levels.streakMultiplier || 1.1,
   },
   db: {
     ...raw.db,
