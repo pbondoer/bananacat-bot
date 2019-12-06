@@ -5,13 +5,13 @@ import raw from '~/../config';
 // This module allows us to edit properties after loading config if needed
 
 // utility functions
-const array = (item: any) => (Array.isArray(item) ? item : []);
+const array = <T>(item: any): T[] => (Array.isArray(item) ? item : []);
 const path = (item: string) => _path.resolve(item);
 
 const config = Object.freeze({
   ...raw,
   prefix: raw.prefix || '!',
-  admins: array(raw.admins),
+  admins: array<string>(raw.admins),
   levels: {
     ...raw.levels,
     logScale: raw.levels.logScale || 1.69,
