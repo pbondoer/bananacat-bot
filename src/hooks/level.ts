@@ -50,6 +50,8 @@ export const getTop = (page: number) => {
     .slice(offset, offset + 10);
 };
 
+export const getTopMax = () => Object.keys(db).length;
+
 export default async (message: Message) => {
   const data = get(message.author.id);
   const curLevel = getLevelFromData(data);

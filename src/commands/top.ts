@@ -1,5 +1,6 @@
 import {
   getTop,
+  getTopMax,
   getLevelFromData,
   getPointsFromData,
   formatPoints,
@@ -13,11 +14,11 @@ export default {
     page: 'which page of the leaderboards to display',
   },
   handler: (message, args) => {
-    const page = Math.floor(Number(args[0] || 0));
+    const page = Math.floor(Number(args[0] || 1)) - 1;
     const offset = page * 10;
 
     const top = getTop(page);
-    const maxPage = Math.ceil(top.length / 10) || 1;
+    const maxPage = Math.floor(getTopMax() / 10) + 1;
 
     if (top.length === 0) {
       return info(
