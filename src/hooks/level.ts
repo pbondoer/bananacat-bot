@@ -44,7 +44,7 @@ export const formatPoints = (points: number) =>
 
 export const getHasStreak = (author: User) => {
   const data = get(author.id);
-  const last = data.lastStreak || new Date(0);
+  const last = new Date(data.lastStreak || 0);
   const diff = +new Date() - +last;
 
   return (
@@ -53,7 +53,7 @@ export const getHasStreak = (author: User) => {
   );
 };
 export const formatStreakMultiplier = () => {
-  return Math.round(config.levels.streakMultiplier - 1 * 100) + '%';
+  return Math.round((config.levels.streakMultiplier - 1) * 100) + '%';
 };
 
 export const getTop = (page: number) => {
@@ -78,15 +78,15 @@ export default async (message: Message) => {
   {
     const diff = +new Date() - +new Date(data.lastStreak);
 
-    if (!!data.lastStreak && diff > config.levels.streakIntervalMax) {
+    if (!data.lastStreak || diff > config.levels.streakIntervalMax) {
       // Reset current streak
       data.streakCount = 0;
       data.lastStreak = new Date();
-    } else if (!data.lastStreak || diff > config.levels.streakInterval) {
+    } else if (diff > config.levels.streakInterval) {
       data.streakCount += 1;
       data.lastStreak = new Date();
 
-      if (data.streakCount == config.levels.streakThreshold) {
+      if (data.streakCount === config.levels.streakThreshold) {
         const streakAmount = formatStreakMultiplier();
 
         message.channel.send(
