@@ -38,10 +38,16 @@ export const formatExp = (exp: number) => `${(exp * 100).toFixed(1)}%`;
 export const formatPoints = (points: number) =>
   points <= 1000 ? points : `${(points / 1000).toFixed(2)}K`;
 
-export const getTop = () => {
+export const getTop = (page: number) => {
+  if (page < 0) {
+    return [];
+  }
+
+  const offset = page * 10;
+
   return Object.entries(db)
     .sort((a, b) => b[1].points - a[1].points)
-    .slice(0, 10);
+    .slice(offset, offset + 10);
 };
 
 export default async (message: Message) => {
