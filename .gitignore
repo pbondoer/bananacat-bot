@@ -8,3 +8,7 @@ config.ts
 # Parcel files
 dist
 .cache
+
+# Local files
+scripts
+ROADMAP.md
