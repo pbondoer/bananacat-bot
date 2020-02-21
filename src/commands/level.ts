@@ -1,7 +1,7 @@
 import {
   getLevel,
-  getExperience,
   getPoints,
+  getExperience,
   getHasStreak,
   formatStreakMultiplier,
   formatExp,

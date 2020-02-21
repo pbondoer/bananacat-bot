@@ -2,12 +2,16 @@ import { Client } from 'discord.js';
 
 import config from '~/config';
 import { handleCommand, handleMessage } from '~/handlers';
+import { initLevels } from '~/hooks/level';
 
 import { name, version } from '~/../package.json';
 
 // Declare client
 console.log(`Starting...`);
 export const client = new Client();
+
+// Init levels
+initLevels();
 
 client.on('ready', () => {
   console.log(

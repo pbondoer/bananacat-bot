@@ -1,10 +1,4 @@
-import {
-  getTop,
-  getTopMax,
-  getLevelFromData,
-  getPointsFromData,
-  formatPoints,
-} from '~/hooks/level';
+import { getTop, getTopMax, formatPoints } from '~/hooks/level';
 import { getRichEmbed, getMember, info } from '~/utils';
 
 export default {
@@ -34,11 +28,9 @@ export default {
 
         const cur = i + offset + 1;
 
-        return `**${cur}. ${member.displayName}** - level ${getLevelFromData(
-          data
-        )} with ${formatPoints(getPointsFromData(data))} points${
-          cur === 3 ? '\n' : ''
-        }`;
+        return `**${cur}. ${member.displayName}** - level ${
+          data.level
+        } / ${formatPoints(data.points, 2)} points${cur === 3 ? '\n' : ''}`;
       })
       .filter(Boolean)
       .join('\n');
