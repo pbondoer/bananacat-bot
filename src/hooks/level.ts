@@ -64,7 +64,7 @@ export const getHasStreak = (author: User) => {
 
   return (
     (data.streakCount || 0) >= config.levels.streakThreshold &&
-    diff < config.levels.streakIntervalMax
+    diff < config.levels.streakIntervalMax * 1000
   );
 };
 export const formatStreakMultiplier = () =>
@@ -105,11 +105,11 @@ export default async (message: Message) => {
   {
     const diff = +new Date() - +new Date(data.lastStreak || 0);
 
-    if (!data.lastStreak || diff > config.levels.streakIntervalMax) {
+    if (!data.lastStreak || diff > config.levels.streakIntervalMax * 1000) {
       // Reset current streak
       data.streakCount = 0;
       data.lastStreak = new Date();
-    } else if (diff > config.levels.streakInterval) {
+    } else if (diff > config.levels.streakInterval * 1000) {
       // Streak!
       data.streakCount += 1;
       data.lastStreak = new Date();
@@ -131,7 +131,7 @@ export default async (message: Message) => {
   {
     const diff = +new Date() - +new Date(data.lastMessage || 0);
 
-    if (!data.lastMessage || diff > config.levels.interval) {
+    if (!data.lastMessage || diff > config.levels.interval * 1000) {
       data.messageCount += 1;
       data.lastMessage = new Date();
 

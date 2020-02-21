@@ -4,6 +4,8 @@ db
 
 # Configuration files
 config.ts
+config.prod.ts
+config.dev.ts
 
 # Parcel files
 dist
