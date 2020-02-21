@@ -1,3 +1,7 @@
+# v0.4.0
+
+- 🚀 **NEW** - Improved leveling system (needs migration)
+
 # v0.3.0
 
 - 🌠 **NEW** - Added message streaking
