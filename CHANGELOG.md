@@ -1,3 +1,7 @@
+# v0.4.1
+
+- 🔥 **HOTFIX** - Fixed intervals
+
 # v0.4.0
 
 - 🚀 **NEW** - Improved leveling system (needs migration)
