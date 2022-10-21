@@ -1,3 +1,8 @@
+> ⚠️ All releases before `1.0.0` considered potentially breaking
+
+# v0.5.0
+- 🚀 **NEW** - Complete rewrite & upgrade all packages
+
 # v0.4.1
 
 - 🔥 **HOTFIX** - Fixed intervals

@@ -1,16 +1,4 @@
-# Application files
 node_modules
-db
-
-# Configuration files
-config.ts
-config.prod.ts
-config.dev.ts
-
-# Parcel files
 dist
+config.ts
 .cache
-
-# Local files
-scripts
-ROADMAP.md

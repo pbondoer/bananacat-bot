@@ -1,63 +1,130 @@
-import { Client } from 'discord.js';
+import { ActivityType, ClientUser } from 'discord.js';
 
+import { client, logger } from '~/utils';
 import config from '~/config';
-import { handleCommand, handleMessage } from '~/handlers';
-import { initLevels } from '~/hooks/level';
+import {
+  bananaStrings,
+  EMOJI_BANANACAT,
+  EMOJI_BANANANANI,
+  EMOJI_BANANAPING,
+} from '~/constants';
 
-import { name, version } from '~/../package.json';
+import { name, version } from '../package.json';
 
-// Declare client
-console.log(`Starting...`);
-export const client = new Client();
-
-// Init levels
-initLevels();
+const clientLogger = logger.child({ component: 'client' });
+const nodeLogger = logger.child({ component: 'node' });
 
 client.on('ready', () => {
-  console.log(
-    `🍌 ${name} v${version} started:\n` +
-      ` - ${client.users.size} users\n` +
-      ` - ${client.channels.size} channels\n` +
-      ` - ${client.guilds.size} guilds`
-  );
+  if (!client.user) {
+    clientLogger.error('No user after login');
+    process.exit(1);
+  }
 
   // set rich presence
-  const setRichPresence = () => {
-    client.user.setActivity(`angry cat no banana`, { type: 'PLAYING' });
-    setTimeout(setRichPresence, 15 * 60 * 1000);
+  const setRichPresence = (user: ClientUser) => {
+    clientLogger.debug('Setting rich presence');
+
+    user.setActivity(`spooky cat no banana 🎃🍌`, {
+      type: ActivityType.Playing,
+    });
+    setTimeout(() => setRichPresence(user), 15 * 60 * 1000);
   };
 
-  setRichPresence();
+  setRichPresence(client.user);
 
   // ensure online status
   client.user.setStatus('online');
+
+  // Yay!
+  clientLogger.info({
+    msg: 'Started!',
+    client: {
+      name,
+      version,
+    },
+  });
 });
 
 client.on('guildCreate', guild => {
-  console.log(
-    `[guild] Joined: ${guild.name} (id: ${guild.id}) ` +
-      `with ${guild.memberCount} members`
-  );
+  clientLogger.info({
+    event: {
+      name: 'guildCreate',
+      guild: {
+        name: guild.name,
+        id: guild.id,
+        memberCount: guild.memberCount,
+      },
+    },
+  });
 });
 
 client.on('guildDelete', guild => {
-  console.log(
-    `[guild] Left: ${guild.name} (id: ${guild.id}) ` +
-      `with ${guild.memberCount} members`
-  );
+  clientLogger.info({
+    event: {
+      name: 'guildDelete',
+      guild: {
+        name: guild.name,
+        id: guild.id,
+        memberCount: guild.memberCount,
+      },
+    },
+  });
 });
 
-client.on('message', async message => {
-  // ignore other bots and self
-  if (message.author.bot) return;
+client.on('messageCreate', async message => {
+  clientLogger.debug({
+    event: {
+      name: 'message',
+      message: {
+        author: message.author?.username,
+        content: message.content,
+      },
+    },
+  });
 
+  // ignore other bots and self
+  if (message.author?.bot) return;
+
+  // ignore partials, shouldn't happen
+  if (message.partial) return;
+
+  // Clean content of emojis to avoid false banana detection
+  const content = message.content.replaceAll(/<:.+:\d+>/gi, '');
+
+  // Angry cat no like banana
+  const isMentionned = client.user && message.mentions.has(client.user);
+  const isBanana = bananaStrings.some(str => content.indexOf(str) !== -1);
+
+  if (isMentionned && isBanana) {
+    message.react(EMOJI_BANANANANI);
+  } else if (isBanana) {
+    message.react(EMOJI_BANANACAT);
+  } else if (isMentionned) {
+    message.react(EMOJI_BANANAPING);
+  }
+
+  // Commands
   if (message.content.indexOf(config.prefix) === 0) {
-    await handleCommand(message);
-  } else {
-    await handleMessage(message);
+    clientLogger.debug({
+      event: {
+        name: 'command',
+        message: {
+          author: message.author.username,
+          content: message.content,
+        },
+      },
+    });
   }
 });
 
+process.on('uncaughtException', error => {
+  nodeLogger.error({ msg: 'Uncaught exception', error });
+});
+process.on('unhandledRejection', error => {
+  nodeLogger.error({ msg: 'Unhandled rejection', error });
+});
+
+clientLogger.info('Logging in...');
 client.login(config.token);
 
 export default client;

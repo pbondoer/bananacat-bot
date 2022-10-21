@@ -1,76 +1,72 @@
-import { RichEmbed, Message, User } from 'discord.js';
+import {
+  Client,
+  Partials,
+  EmbedBuilder,
+  ClientUser,
+  Guild,
+  GatewayIntentBits,
+  TextBasedChannel,
+} from 'discord.js';
+import pino from 'pino';
 
-import config from '~/config';
-import client from '~';
+// Global application
+export const logger = pino({
+  level: process.env.NODE_ENV === 'production' ? 'warn' : 'debug',
+  serializers: {
+    error: pino.stdSerializers.err,
+    err: pino.stdSerializers.err,
+    e: pino.stdSerializers.err,
 
-// Checks if the message contains a banana
-// angry cat no banana!
-export const hasBanana = (message: Message) =>
-  message.content.indexOf('🍌') >= 0;
-
-// Gets home guild object
-export const getHomeGuild = () => client.guilds.get(config.homeGuild);
-
-// Gets an user for ID
-export const getUser = (id: string) => client.users.get(id);
-export const getMember = (id: string) => {
-  const guild = getHomeGuild();
-  if (!guild) return undefined;
-
-  return guild.members.get(id);
-};
-
-// Gets home guild emojis object
-export const getEmojis = () => {
-  const guild = getHomeGuild();
-
-  if (!guild) return undefined;
-
-  return guild.emojis;
-};
-
-// Gets a named emoji from config
-export const getEmoji = (name: string) => {
-  const emojis = getEmojis();
-  const placeholder = `:${name}:`;
-
-  if (!emojis) return placeholder;
-
-  return emojis.find(emoji => emoji.name === name) || placeholder;
-};
+    user: (user: ClientUser) => ({
+      id: user.id,
+      tag: user.tag,
+    }),
+    guild: (guild: Guild) => ({
+      id: guild.id,
+      name: guild.name,
+    }),
+  },
+});
+export const client = new Client({
+  partials: [Partials.Channel],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+  ],
+});
 
 // Gets a themed rich embed
 export const getRichEmbed = (title: string, content: string) =>
-  new RichEmbed()
-    .setTitle(title)
-    .setColor(0xf1c40f)
-    .setDescription(content);
+  new EmbedBuilder().setTitle(title).setColor(0xf1c40f).setDescription(content);
 
 // Notify functions -----------------------------------------------------------
 
-type Channel = Message['channel'] | User;
-
-export const error = (channel: Channel, message: string) => {
-  channel.send(`❌ ${message}`);
+const emojis = {
+  success: '✅',
+  error: '❌',
+  info: 'ℹ️',
+  warning: '⚠️',
+  tada: '🎉',
 };
 
-export const success = (channel: Channel, message: string) => {
-  channel.send(`✅ ${message}`);
-};
+const emojiMsg = (channel: TextBasedChannel, emoji: string, message: string) =>
+  channel.send(`> ${emoji} ${message}`);
 
-export const info = (channel: Channel, message: string) => {
-  channel.send(`:information_source: ${message}`);
-};
+export const success = (channel: TextBasedChannel, message: string) =>
+  emojiMsg(channel, emojis.success, message);
 
-// Format bytes
-export const formatBytes = (bytes: number, decimals = 2) => {
-  if (bytes === 0) return '0 bytes';
+export const tada = (channel: TextBasedChannel, message: string) =>
+  emojiMsg(channel, emojis.tada, message);
 
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+export const error = (channel: TextBasedChannel, message: string) =>
+  emojiMsg(channel, emojis.error, message);
 
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+export const info = (channel: TextBasedChannel, message: string) =>
+  emojiMsg(channel, emojis.info, message);
 
-  return (bytes / Math.pow(k, i)).toFixed(dm) + ' ' + sizes[i];
-};
+export const warning = (channel: TextBasedChannel, message: string) =>
+  emojiMsg(channel, emojis.warning, message);
