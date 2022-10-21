@@ -1,6 +1,6 @@
 {
   "name": "bananacat-bot",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "banana cat bot",
   "main": "index.js",
   "author": "Pierre Bondoerffer <pierre@banana.cat>",
