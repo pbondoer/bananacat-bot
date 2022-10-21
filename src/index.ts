@@ -24,7 +24,7 @@ client.on('ready', () => {
   const setRichPresence = (user: ClientUser) => {
     clientLogger.debug('Setting rich presence');
 
-    user.setActivity(`spooky cat no banana 🎃🍌`, {
+    user.setActivity(config.activity, {
       type: ActivityType.Playing,
     });
     setTimeout(() => setRichPresence(user), 15 * 60 * 1000);
