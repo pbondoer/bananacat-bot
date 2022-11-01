@@ -89,7 +89,7 @@ client.on('messageCreate', async message => {
   if (message.partial) return;
 
   // Clean content of emojis to avoid false banana detection
-  const content = message.content.replaceAll(/<a?:.+:\d+>/gi, '');
+  const content = message.content.replaceAll(/<a?:.+?:\d+>/gi, '');
 
   // Angry cat no like banana
   const isMentionned = client.user && message.mentions.has(client.user);
